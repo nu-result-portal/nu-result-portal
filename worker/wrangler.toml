@@ -1,0 +1,4 @@
+name = "nu-result-cgpa-api"
+main = "index.js"
+compatibility_date = "2026-10-15"
+workers_dev = true
