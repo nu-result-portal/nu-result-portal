@@ -1,56 +1,283 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#102b46">
-<meta name="description" content="National University Bangladesh Result & CGPA Portal — result search, academic transcript and CGPA calculator.">
-<title>NU Result & CGPA Portal</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b46">
+  <meta name="description" content="National University Bangladesh Result and CGPA Portal. Access official results, preview clearly labelled demo marksheets, and calculate credit-weighted CGPA.">
+  <meta name="robots" content="index,follow">
+  <title>NU Result & CGPA Portal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<header class="topbar"><a class="brand" href="#"><span class="crest">NU</span><span><b>ACADEMIC PORTAL</b><small>National University · Bangladesh</small></span></a><div class="top-actions"><button id="langToggle" class="quiet">English</button><a class="official" href="https://results.nu.ac.bd/" target="_blank" rel="noopener">Official Results ↗</a></div></header>
-<main>
-<section class="hero">
-  <div class="eyebrow"><span></span> ACADEMIC RECORDS & PERFORMANCE</div>
-  <h1 data-bn="ফলাফল ও CGPA পোর্টাল" data-en="Results & CGPA Portal">ফলাফল ও CGPA পোর্টাল</h1>
-  <p data-bn="আপনার একাডেমিক ফলাফল দেখুন, GPA/CGPA হিসাব করুন এবং পরিচ্ছন্ন একাডেমিক ট্রান্সক্রিপ্ট প্রিন্ট করুন।" data-en="View your academic results, calculate GPA/CGPA, and print a clean academic transcript.">আপনার একাডেমিক ফলাফল দেখুন, GPA/CGPA হিসাব করুন এবং পরিচ্ছন্ন একাডেমিক ট্রান্সক্রিপ্ট প্রিন্ট করুন।</p>
-  <div class="hero-meta"><span>● HONOURS</span><span>● DEGREE</span><span>● MASTERS</span><span>● PROFESSIONAL</span></div>
-</section>
-<nav class="tabs"><button class="tab active" data-panel="search" data-bn="ফলাফল অনুসন্ধান" data-en="Result Search">ফলাফল অনুসন্ধান</button><button class="tab" data-panel="officialPanel" data-bn="অফিসিয়াল NU পোর্টাল" data-en="Official NU Portal">অফিসিয়াল NU পোর্টাল</button><button class="tab" data-panel="calculator" data-bn="CGPA ক্যালকুলেটর" data-en="CGPA Calculator">CGPA ক্যালকুলেটর</button></nav>
-<section id="search" class="panel">
-<div class="section-head"><div><span class="section-kicker">01 / RESULT LOOKUP</span><h2 data-bn="আপনার ফলাফল খুঁজুন" data-en="Find your result">আপনার ফলাফল খুঁজুন</h2></div><span class="pill">SECURE LOOKUP</span></div>
-<div class="notice"><strong>গুরুত্বপূর্ণ:</strong> <span data-bn="এখানে কোনো ভুয়া ফলাফল দেখানো হয় না। জাতীয় বিশ্ববিদ্যালয়ের আসল ফলাফল দেখতে Official NU Portal ট্যাব ব্যবহার করুন। অফিসিয়াল পোর্টাল যদি অন্য ওয়েবসাইটের ভেতরে খোলা বন্ধ করে, নিচের একই পৃষ্ঠার লিংক দিয়ে খুলুন।" data-en="No fake results are shown here. Use the Official NU Portal tab to access real NU results. If the official portal blocks embedding, use the fallback link on that panel.">এখানে কোনো ভুয়া ফলাফল দেখানো হয় না। জাতীয় বিশ্ববিদ্যালয়ের আসল ফলাফল দেখতে Official NU Portal ট্যাব ব্যবহার করুন। অফিসিয়াল পোর্টাল যদি অন্য ওয়েবসাইটের ভেতরে খোলা বন্ধ করে, নিচের একই পৃষ্ঠার লিংক দিয়ে খুলুন।</span></div>
-<form id="resultForm" class="form-grid">
-<label><span data-bn="কোর্স / বিভাগ" data-en="Programme / Category">কোর্স / বিভাগ</span><select id="course" required><option value="honours">Honours / অনার্স</option><option value="degree">Degree Pass / ডিগ্রি</option><option value="masters">Masters / মাস্টার্স</option><option value="professional">Professional / প্রফেশনাল</option></select></label>
-<label><span data-bn="পরীক্ষার ধরন" data-en="Examination">পরীক্ষার ধরন</span><select id="exam" required><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option><option>Final</option><option>Consolidated</option><option>Preliminary</option></select></label>
-<label><span data-bn="পরীক্ষার বছর" data-en="Exam year">পরীক্ষার বছর</span><input id="year" inputmode="numeric" placeholder="যেমন: 2024" required pattern="[0-9]{4}" maxlength="4"></label>
-<label><span data-bn="রোল নম্বর" data-en="Roll number">রোল নম্বর</span><input id="roll" placeholder="Roll number" required maxlength="20"></label>
-<label class="full"><span data-bn="রেজিস্ট্রেশন নম্বর" data-en="Registration number">রেজিস্ট্রেশন নম্বর</span><input id="reg" placeholder="Registration number" required maxlength="24"></label>
-<div class="full actions"><button class="primary" type="submit" data-bn="অফিসিয়াল পোর্টালে চালিয়ে যান" data-en="Continue to official portal">অফিসিয়াল পোর্টালে চালিয়ে যান <span>→</span></button><button class="outline" type="button" id="showDemo" data-bn="ডেমো মার্কশিট দেখুন" data-en="Preview demo marksheet">ডেমো মার্কশিট দেখুন</button></div>
-</form>
-<p id="formMessage" class="form-message" role="status"></p>
-<p id="formMessage" class="form-message" role="status"></p>
-</section>
-<section id="resultArea" class="panel result-panel hidden" aria-live="polite"></section>
-<section id="officialPanel" class="panel hidden">
-<div class="section-head"><div><span class="section-kicker">02 / OFFICIAL SOURCE</span><h2 data-bn="জাতীয় বিশ্ববিদ্যালয় — মূল ফলাফল পোর্টাল" data-en="National University — Official Results Portal">জাতীয় বিশ্ববিদ্যালয় — মূল ফলাফল পোর্টাল</h2></div><span class="pill">OFFICIAL SOURCE</span></div>
-<p class="muted" data-bn="নিচের ফ্রেমে NU-এর আসল ফলাফল পোর্টাল খোলার চেষ্টা করা হবে। NU-এর সার্ভার যদি অন্য সাইটের মধ্যে প্রদর্শন বন্ধ করে, এটি এখানে দেখা যাবে না—এটি ওয়েবসাইটের নিরাপত্তা-নিয়ম। সে ক্ষেত্রে একই পৃষ্ঠায় খোলার জন্য নিচের লিংক ব্যবহার করুন।" data-en="This frame attempts to show the official NU results portal. If NU blocks display inside other websites, the portal cannot appear here due to browser security rules. Use the same-page fallback link below.">নিচের ফ্রেমে NU-এর আসল ফলাফল পোর্টাল খোলার চেষ্টা করা হবে। NU-এর সার্ভার যদি অন্য সাইটের মধ্যে প্রদর্শন বন্ধ করে, এটি এখানে দেখা যাবে না—এটি ওয়েবসাইটের নিরাপত্তা-নিয়ম। সে ক্ষেত্রে একই পৃষ্ঠায় খোলার জন্য নিচের লিংক ব্যবহার করুন।</p>
-<div class="portal-controls"><label for="portalCourse">Course / কোর্স</label><select id="portalCourse"><option value="honours">Honours / অনার্স</option><option value="degree">Degree Pass / ডিগ্রি</option><option value="masters">Masters / মাস্টার্স</option><option value="professional">Professional / প্রফেশনাল</option></select><button id="loadPortal" class="primary" type="button">Load portal / পোর্টাল খুলুন</button><a id="portalFallback" class="outline link-button" href="https://results.nu.ac.bd/" target="_self">Open official portal in this page ↗</a></div>
-<div class="portal-frame-wrap"><iframe id="officialFrame" title="National University official results portal" src="https://results.nu.ac.bd/" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation"></iframe></div>
-<p class="footnote">Official source: <a href="https://results.nu.ac.bd/" target="_blank" rel="noopener">results.nu.ac.bd</a>. This independent website cannot read another site's cross-origin page or CAPTCHA response. Automatic transfer into the custom marksheet requires an authorized result integration.</p>
-</section>
-<section id="calculator" class="panel hidden">
-<div class="section-head"><div><span class="section-kicker">03 / PERFORMANCE TOOL</span><h2 data-bn="CGPA ক্যালকুলেটর" data-en="CGPA Calculator">CGPA ক্যালকুলেটর</h2></div><span class="pill">CREDIT WEIGHTED</span></div>
-<p class="muted" data-bn="প্রতিটি বর্ষের GPA এবং সংশ্লিষ্ট মোট ক্রেডিট দিন। সঠিক ফলাফলের জন্য আপনার প্রোগ্রামের অফিসিয়াল ক্রেডিট কাঠামো ব্যবহার করুন।" data-en="Enter each year's GPA and corresponding total credits. Use your programme's official credit structure for an accurate result.">প্রতিটি বর্ষের GPA এবং সংশ্লিষ্ট মোট ক্রেডিট দিন। সঠিক ফলাফলের জন্য আপনার প্রোগ্রামের অফিসিয়াল ক্রেডিট কাঠামো ব্যবহার করুন।</p>
-<div class="calc-table-wrap"><table class="calc-table"><thead><tr><th>Year / বর্ষ</th><th>GPA (0–4.00)</th><th>Total credits</th></tr></thead><tbody id="yearRows"></tbody></table></div>
-<div class="calc-actions"><button id="addYear" class="outline">+ Add year / বর্ষ যোগ</button><button id="calculate" class="primary">Calculate CGPA / হিসাব করুন</button><button id="clearCalc" class="quiet">Reset</button></div>
-<div id="calcOutput" class="calc-output hidden"></div>
-<p class="footnote">Formula: CGPA = Σ (GPA × credits) ÷ Σ credits. This calculator assumes a credit-weighted method; confirm the applicable NU rules for your course.</p>
-</section>
-<section class="bottom-info"><div><span class="section-kicker">ACADEMIC INTEGRITY</span><h3>Clear. Accessible. Responsible.</h3><p>Independent student utility — not affiliated with or endorsed by National University, Bangladesh or the University of Oxford.</p></div><a href="https://www.nu.ac.bd/" target="_blank" rel="noopener">National University website ↗</a></section>
-</main>
-<footer><span>© <span id="currentYear"></span> NU Result & CGPA Portal</span><span>Independent utility · Not an official marksheet</span></footer>
-<script src="app.js"></script>
-</body></html>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="NU Academic Portal home">
+      <span class="crest">NU</span>
+      <span>
+        <b>ACADEMIC PORTAL</b>
+        <small>National University · Bangladesh</small>
+      </span>
+    </a>
+
+    <div class="top-actions">
+      <button id="langToggle" class="quiet" type="button">English</button>
+      <a class="official" href="https://results.nu.ac.bd/" target="_blank" rel="noopener noreferrer">
+        Official Results ↗
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span></span> ACADEMIC RECORDS &amp; PERFORMANCE</div>
+
+      <h1 data-bn="ফলাফল ও CGPA পোর্টাল" data-en="Results & CGPA Portal">
+        ফলাফল ও CGPA পোর্টাল
+      </h1>
+
+      <p data-bn="আপনার একাডেমিক ফলাফল দেখুন, GPA/CGPA হিসাব করুন এবং পরিচ্ছন্ন একাডেমিক ট্রান্সক্রিপ্ট প্রিন্ট করুন।"
+         data-en="Access the official result portal, calculate GPA/CGPA, and print a clearly labelled demonstration transcript.">
+        আপনার একাডেমিক ফলাফল দেখুন, GPA/CGPA হিসাব করুন এবং পরিচ্ছন্ন একাডেমিক ট্রান্সক্রিপ্ট প্রিন্ট করুন।
+      </p>
+
+      <div class="hero-meta">
+        <span>● HONOURS</span>
+        <span>● DEGREE</span>
+        <span>● MASTERS</span>
+        <span>● PROFESSIONAL</span>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Portal sections">
+      <button class="tab active" type="button" data-panel="search"
+              data-bn="ফলাফল অনুসন্ধান" data-en="Result Search">
+        ফলাফল অনুসন্ধান
+      </button>
+
+      <button class="tab" type="button" data-panel="officialPanel"
+              data-bn="অফিসিয়াল NU পোর্টাল" data-en="Official NU Portal">
+        অফিসিয়াল NU পোর্টাল
+      </button>
+
+      <button class="tab" type="button" data-panel="calculator"
+              data-bn="CGPA ক্যালকুলেটর" data-en="CGPA Calculator">
+        CGPA ক্যালকুলেটর
+      </button>
+    </nav>
+
+    <section id="search" class="panel">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">01 / RESULT LOOKUP</span>
+          <h2 data-bn="আপনার ফলাফল খুঁজুন" data-en="Find your result">
+            আপনার ফলাফল খুঁজুন
+          </h2>
+        </div>
+        <span class="pill">OFFICIAL SOURCE</span>
+      </div>
+
+      <div class="notice">
+        <strong data-bn="গুরুত্বপূর্ণ:" data-en="Important:">গুরুত্বপূর্ণ:</strong>
+        <span data-bn="এই ওয়েবসাইট সরাসরি জাতীয় বিশ্ববিদ্যালয়ের ফলাফল সংগ্রহ করে না। আসল ফলাফল দেখতে অফিসিয়াল NU পোর্টালে গিয়ে প্রয়োজনীয় তথ্য ও CAPTCHA দিয়ে অনুসন্ধান করুন।"
+              data-en="This website does not retrieve official NU results directly. Visit the official NU portal and enter the required details and CAPTCHA to check your actual result.">
+          এই ওয়েবসাইট সরাসরি জাতীয় বিশ্ববিদ্যালয়ের ফলাফল সংগ্রহ করে না। আসল ফলাফল দেখতে অফিসিয়াল NU পোর্টালে গিয়ে প্রয়োজনীয় তথ্য ও CAPTCHA দিয়ে অনুসন্ধান করুন।
+        </span>
+      </div>
+
+      <form id="resultForm" class="form-grid">
+        <label>
+          <span data-bn="কোর্স / বিভাগ" data-en="Programme / Category">কোর্স / বিভাগ</span>
+          <select id="course" name="course" required>
+            <option value="honours">Honours / অনার্স</option>
+            <option value="degree">Degree Pass / ডিগ্রি</option>
+            <option value="masters">Masters / মাস্টার্স</option>
+            <option value="professional">Professional / প্রফেশনাল</option>
+          </select>
+        </label>
+
+        <label>
+          <span data-bn="পরীক্ষার ধরন" data-en="Examination">পরীক্ষার ধরন</span>
+          <select id="exam" name="exam" required>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+            <option value="Final">Final</option>
+            <option value="Consolidated">Consolidated</option>
+            <option value="Preliminary">Preliminary</option>
+          </select>
+        </label>
+
+        <label>
+          <span data-bn="পরীক্ষার বছর" data-en="Exam year">পরীক্ষার বছর</span>
+          <input id="year" name="year" type="text" inputmode="numeric"
+                 placeholder="যেমন: 2024" required
+                 pattern="[0-9]{4}" maxlength="4"
+                 title="Enter a four-digit examination year">
+        </label>
+
+        <label>
+          <span data-bn="রোল নম্বর" data-en="Roll number">রোল নম্বর</span>
+          <input id="roll" name="roll" type="text"
+                 placeholder="Roll number" required maxlength="20"
+                 autocomplete="off">
+        </label>
+
+        <label class="full">
+          <span data-bn="রেজিস্ট্রেশন নম্বর" data-en="Registration number">
+            রেজিস্ট্রেশন নম্বর
+          </span>
+          <input id="reg" name="registration" type="text"
+                 placeholder="Registration number" required maxlength="24"
+                 autocomplete="off">
+        </label>
+
+        <div class="full actions">
+          <button class="primary" type="submit"
+                  data-bn="অফিসিয়াল পোর্টালে চালিয়ে যান"
+                  data-en="Continue to official portal">
+            অফিসিয়াল পোর্টালে চালিয়ে যান <span>→</span>
+          </button>
+
+          <button class="outline" type="button" id="showDemo"
+                  data-bn="ডেমো মার্কশিট দেখুন"
+                  data-en="Preview demo marksheet">
+            ডেমো মার্কশিট দেখুন
+          </button>
+        </div>
+      </form>
+
+      <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="resultArea" class="panel result-panel hidden" aria-live="polite"></section>
+
+    <section id="officialPanel" class="panel hidden">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">02 / OFFICIAL SOURCE</span>
+          <h2 data-bn="জাতীয় বিশ্ববিদ্যালয় — মূল ফলাফল পোর্টাল"
+              data-en="National University — Official Results Portal">
+            জাতীয় বিশ্ববিদ্যালয় — মূল ফলাফল পোর্টাল
+          </h2>
+        </div>
+        <span class="pill">OFFICIAL SOURCE</span>
+      </div>
+
+      <p id="portalMessage" class="muted" role="status">
+        আসল ফলাফল দেখতে অফিসিয়াল NU পোর্টাল খুলুন। এই ওয়েবসাইট অফিসিয়াল ফলাফল স্বয়ংক্রিয়ভাবে সংগ্রহ করে না।
+      </p>
+
+      <div class="portal-controls">
+        <label for="portalCourse">Course / কোর্স</label>
+
+        <select id="portalCourse">
+          <option value="honours">Honours / অনার্স</option>
+          <option value="degree">Degree Pass / ডিগ্রি</option>
+          <option value="masters">Masters / মাস্টার্স</option>
+          <option value="professional">Professional / প্রফেশনাল</option>
+        </select>
+
+        <button id="loadPortal" class="primary" type="button">
+          Open official portal / অফিসিয়াল পোর্টাল খুলুন
+        </button>
+
+        <a id="portalFallback" class="outline link-button"
+           href="https://results.nu.ac.bd/"
+           target="_blank" rel="noopener noreferrer">
+          Open official NU results ↗
+        </a>
+      </div>
+
+      <div class="notice">
+        <strong>How to check your result</strong>
+        <ol>
+          <li>Open the official National University result portal.</li>
+          <li>Select the appropriate examination and enter your details.</li>
+          <li>Complete the CAPTCHA if requested.</li>
+          <li>Submit the form and verify the displayed result.</li>
+        </ol>
+      </div>
+
+      <p class="footnote">
+        Official source:
+        <a href="https://results.nu.ac.bd/" target="_blank" rel="noopener noreferrer">
+          results.nu.ac.bd
+        </a>.
+        This independent website cannot read another site's protected page or CAPTCHA.
+      </p>
+    </section>
+
+    <section id="calculator" class="panel hidden">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">03 / PERFORMANCE TOOL</span>
+          <h2 data-bn="CGPA ক্যালকুলেটর" data-en="CGPA Calculator">
+            CGPA ক্যালকুলেটর
+          </h2>
+        </div>
+        <span class="pill">CREDIT WEIGHTED</span>
+      </div>
+
+      <p class="muted"
+         data-bn="প্রতিটি বর্ষের GPA এবং সংশ্লিষ্ট মোট ক্রেডিট দিন। সঠিক ফলাফলের জন্য আপনার প্রোগ্রামের অফিসিয়াল ক্রেডিট কাঠামো ব্যবহার করুন।"
+         data-en="Enter each year's GPA and corresponding total credits. Use your programme's official credit structure for an accurate result.">
+        প্রতিটি বর্ষের GPA এবং সংশ্লিষ্ট মোট ক্রেডিট দিন। সঠিক ফলাফলের জন্য আপনার প্রোগ্রামের অফিসিয়াল ক্রেডিট কাঠামো ব্যবহার করুন।
+      </p>
+
+      <div class="calc-table-wrap">
+        <table class="calc-table">
+          <thead>
+            <tr>
+              <th>Year / বর্ষ</th>
+              <th>GPA (0–4.00)</th>
+              <th>Total credits</th>
+            </tr>
+          </thead>
+          <tbody id="yearRows"></tbody>
+        </table>
+      </div>
+
+      <div class="calc-actions">
+        <button id="addYear" class="outline" type="button">+ Add year / বর্ষ যোগ</button>
+        <button id="calculate" class="primary" type="button">Calculate CGPA / হিসাব করুন</button>
+        <button id="clearCalc" class="quiet" type="button">Reset</button>
+      </div>
+
+      <div id="calcOutput" class="calc-output hidden" aria-live="polite"></div>
+
+      <p class="footnote">
+        Formula: CGPA = Σ (GPA × credits) ÷ Σ credits.
+        This calculator assumes a credit-weighted method; confirm the applicable NU rules for your course.
+      </p>
+    </section>
+
+    <section class="bottom-info">
+      <div>
+        <span class="section-kicker">ACADEMIC INTEGRITY</span>
+        <h3>Clear. Accessible. Responsible.</h3>
+        <p>
+          Independent student utility — not affiliated with or endorsed by
+          National University, Bangladesh or the University of Oxford.
+        </p>
+      </div>
+
+      <a href="https://www.nu.ac.bd/" target="_blank" rel="noopener noreferrer">
+        National University website ↗
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <span>© <span id="currentYear"></span> NU Result &amp; CGPA Portal</span>
+    <span>Independent utility · Not an official marksheet</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
