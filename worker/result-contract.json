@@ -1,0 +1,32 @@
+{
+  "request": {
+    "course": "honours | degree | masters | professional",
+    "exam": "string",
+    "year": "YYYY",
+    "roll": "string",
+    "registration": "string"
+  },
+  "authorized_success_response_example": {
+    "source": "authorized-provider",
+    "student": {
+      "name": "string",
+      "college": "string",
+      "course": "string",
+      "exam": "string",
+      "year": "YYYY",
+      "roll": "string",
+      "registration": "string",
+      "subjects": [
+        {
+          "code": "string",
+          "name": "string",
+          "grade": "string",
+          "point": 0.0
+        }
+      ],
+      "gpa": 0.0,
+      "status": "string"
+    }
+  },
+  "note": "Schema example only. Not an actual NU API and contains no real student data."
+}
