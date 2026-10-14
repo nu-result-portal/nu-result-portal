@@ -1,11 +1,14 @@
-'use strict';
+/* =========================================
+   NU RESULT & CGPA PORTAL
+   Improved Application Logic
+========================================= */
 
-const $ = (s) => document.querySelector(s);
+const $ = (selector) => document.querySelector(selector);
 
-let lang = 'bn';
+let lang = "bn";
 let rowCount = 0;
 
-const OFFICIAL_URL = 'https://results.nu.ac.bd/';
+const OFFICIAL_URL = "https://results.nu.ac.bd/";
 
 const portalUrls = {
   honours: OFFICIAL_URL,
@@ -14,201 +17,223 @@ const portalUrls = {
   professional: OFFICIAL_URL
 };
 
-const messages = {
-  bn: {
-    portalInfo: 'অফিসিয়াল ফলাফল দেখতে জাতীয় বিশ্ববিদ্যালয়ের মূল ওয়েবসাইট ব্যবহার করুন। ফলাফল এই ওয়েবসাইটে স্বয়ংক্রিয়ভাবে সংগ্রহ করা হয় না।',
-    submitted: 'আপনার নির্বাচিত কোর্স অনুযায়ী অফিসিয়াল NU ফলাফল পোর্টাল খুলুন। সেখানে প্রয়োজনীয় তথ্য ও CAPTCHA দিয়ে ফলাফল অনুসন্ধান করুন।',
-    invalid: 'সঠিক GPA (০–৪.০০) এবং শূন্যের বেশি ক্রেডিট লিখুন।',
-    empty: 'GPA ও ক্রেডিট লিখে হিসাব করুন।',
-    calculated: 'মোট ক্রেডিট-ওয়েটেড CGPA',
-    credits: 'মোট গণনাকৃত ক্রেডিট',
-    close: 'প্রিভিউ বন্ধ করুন',
-    demo: 'এটি শুধুমাত্র নমুনা ফলাফল। এটি জাতীয় বিশ্ববিদ্যালয়ের আসল ফলাফল নয়।',
-    popup: 'অফিসিয়াল NU ফলাফল পোর্টাল খুলুন'
-  },
-  en: {
-    portalInfo: 'Use the official National University website to check results. Results are not automatically retrieved by this website.',
-    submitted: 'Open the official NU results portal for your selected course. Enter the required details and CAPTCHA there.',
-    invalid: 'Enter a valid GPA (0–4.00) and positive credits.',
-    empty: 'Enter GPA and credits to calculate.',
-    calculated: 'Total credit-weighted CGPA',
-    credits: 'Total credits counted',
-    close: 'Close preview',
-    demo: 'This is demonstration data only. It is not an actual National University result.',
-    popup: 'Open official NU results portal'
-  }
-};
+/* Official portal */
 
 function setPortal(course) {
   const url = portalUrls[course] || OFFICIAL_URL;
-  const frame = $('#officialFrame');
-  const fallback = $('#portalFallback');
-  const message = $('#portalMessage');
+  const frame = $("#officialFrame");
+  const fallback = $("#portalFallback");
 
-  // The official portal may block iframe embedding.
-  // The external link remains the reliable fallback.
-  if (frame) {
-    frame.src = 'about:blank';
-    frame.title = 'Official NU result portal is available through the external link';
+  if (frame && frame.src !== url) {
+    frame.src = url;
   }
 
   if (fallback) {
     fallback.href = url;
-    fallback.target = '_blank';
-    fallback.rel = 'noopener noreferrer';
-    fallback.textContent = messages[lang].popup;
-  }
-
-  if (message) {
-    message.textContent = messages[lang].portalInfo;
   }
 }
 
-function switchLanguage() {
-  lang = lang === 'bn' ? 'en' : 'bn';
-  document.documentElement.lang = lang;
+const yearElement = $("#currentYear");
 
-  const toggle = $('#langToggle');
-  if (toggle) {
-    toggle.textContent = lang === 'bn' ? 'English' : 'বাংলা';
-  }
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
 
-  document.querySelectorAll('[data-bn][data-en]').forEach((el) => {
-    el.textContent = el.dataset[lang];
+/* Language switch */
+
+const languageButton = $("#langToggle");
+
+if (languageButton) {
+  languageButton.addEventListener("click", () => {
+    lang = lang === "bn" ? "en" : "bn";
+    document.documentElement.lang = lang;
+
+    languageButton.textContent =
+      lang === "bn" ? "English" : "বাংলা";
+
+    document.querySelectorAll("[data-bn][data-en]")
+      .forEach((element) => {
+        element.textContent = element.dataset[lang];
+      });
   });
-
-  setPortal($('#course')?.value || 'honours');
 }
 
-function setupTabs() {
-  document.querySelectorAll('.tab').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach((item) => {
-        item.classList.toggle('active', item === btn);
-      });
+/* Main navigation */
 
-      document.querySelectorAll('main > .panel').forEach((panel) => {
-        panel.classList.add('hidden');
-      });
-
-      const target = $('#' + btn.dataset.panel);
-      if (target) target.classList.remove('hidden');
+document.querySelectorAll(".tab").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.classList.toggle("active", tab === button);
     });
+
+    document.querySelectorAll("main > .panel").forEach((panel) => {
+      panel.classList.add("hidden");
+    });
+
+    const target = $("#" + button.dataset.panel);
+
+    if (target) {
+      target.classList.remove("hidden");
+    }
   });
-}
+});
 
-function setupResultForm() {
-  const form = $('#resultForm');
-  if (!form) return;
+/* Result form */
 
-  form.addEventListener('submit', (event) => {
+const resultForm = $("#resultForm");
+
+if (resultForm) {
+  resultForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const course = $('#course')?.value || 'honours';
-    setPortal(course);
+    const course = $("#course").value;
 
-    const message = $('#formMessage');
-    if (message) {
-      message.textContent = messages[lang].submitted;
-    }
+    setPortal(course);
 
     const officialTab = document.querySelector(
       '.tab[data-panel="officialPanel"]'
     );
 
-    if (officialTab) officialTab.click();
+    if (officialTab) {
+      officialTab.click();
+    }
+
+    const message = $("#formMessage");
+
+    if (message) {
+      message.textContent = lang === "bn"
+        ? "এখন অফিসিয়াল NU পোর্টালে প্রয়োজনীয় তথ্য ও CAPTCHA দিয়ে ফলাফল অনুসন্ধান করুন। এই সাইট থেকে স্বয়ংক্রিয়ভাবে প্রকৃত ফলাফল সংগ্রহ করা হচ্ছে না।"
+        : "Enter your details and CAPTCHA on the official NU portal to search for your result. This site does not automatically retrieve official results.";
+    }
   });
 }
 
-function setupPortalControls() {
-  $('#loadPortal')?.addEventListener('click', () => {
-    setPortal($('#portalCourse')?.value || 'honours');
+const loadPortalButton = $("#loadPortal");
+const portalCourse = $("#portalCourse");
+
+if (loadPortalButton && portalCourse) {
+  loadPortalButton.addEventListener("click", () => {
+    setPortal(portalCourse.value);
   });
 
-  $('#portalCourse')?.addEventListener('change', () => {
-    setPortal($('#portalCourse').value);
+  portalCourse.addEventListener("change", () => {
+    setPortal(portalCourse.value);
   });
 }
+
+/* Safe HTML escaping */
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+
+/* Clearly fictional demo marksheet */
+
+const demoNames = {
+  honours: "Bachelor of Arts (Honours)",
+  degree: "Bachelor Degree (Pass)",
+  masters: "Master's Programme",
+  professional: "Professional Programme"
+};
 
 function makeDemo(data) {
-  const names = {
-    honours: 'Bachelor of Arts (Honours)',
-    degree: 'Bachelor Degree (Pass)',
-    masters: 'Master’s Programme',
-    professional: 'Professional Programme'
-  };
-
   return {
-    name: 'DEMO STUDENT — NOT REAL',
-    college: 'Sample Affiliated College (Demo)',
-    course: names[data.course] || 'Demonstration Programme',
-    exam: data.exam || 'Sample Examination',
-    year: data.year || '2024',
-    roll: data.roll || 'DEMO-0000',
-    reg: data.reg || 'DEMO-REGISTRATION',
+    name: "DEMO STUDENT — NOT REAL",
+    college: "Sample Affiliated College (Demo)",
+    course: demoNames[data.course] || "Demo Programme",
+    exam: data.exam,
+    year: data.year,
+    roll: data.roll,
+    reg: data.reg,
     subjects: [
-      { code: 'DEMO-101', name: 'Sample Subject One', grade: 'A', point: 3.75 },
-      { code: 'DEMO-102', name: 'Sample Subject Two', grade: 'A-', point: 3.50 },
-      { code: 'DEMO-103', name: 'Sample Subject Three', grade: 'B+', point: 3.25 },
-      { code: 'DEMO-104', name: 'Sample Subject Four', grade: 'A', point: 3.75 }
+      {
+        code: "DEMO-101",
+        name: "Sample Subject One",
+        grade: "A",
+        point: 3.75
+      },
+      {
+        code: "DEMO-102",
+        name: "Sample Subject Two",
+        grade: "A-",
+        point: 3.50
+      },
+      {
+        code: "DEMO-103",
+        name: "Sample Subject Three",
+        grade: "B+",
+        point: 3.25
+      },
+      {
+        code: "DEMO-104",
+        name: "Sample Subject Four",
+        grade: "A",
+        point: 3.75
+      }
     ],
     gpa: 3.56,
-    status: 'DEMO ONLY'
+    status: "DEMO ONLY"
   };
 }
 
-function setupDemo() {
-  $('#showDemo')?.addEventListener('click', () => {
+const showDemoButton = $("#showDemo");
+
+if (showDemoButton) {
+  showDemoButton.addEventListener("click", () => {
     const data = {
-      course: $('#course')?.value || 'honours',
-      exam: $('#exam')?.value || 'Sample Examination',
-      year: $('#year')?.value || '2024',
-      roll: $('#roll')?.value || 'DEMO-0000',
-      reg: $('#reg')?.value || 'DEMO-REGISTRATION'
+      course: $("#course").value,
+      exam: $("#exam").value,
+      year: $("#year").value || "2024",
+      roll: $("#roll").value || "DEMO-0000",
+      reg: $("#reg").value || "DEMO-REGISTRATION"
     };
 
     renderTranscript(makeDemo(data), true);
   });
 }
 
-function renderTranscript(result, demo = true) {
-  const area = $('#resultArea');
+/* Marksheet renderer */
+
+function renderTranscript(result, isDemo = true) {
+  const area = $("#resultArea");
+
   if (!area) return;
 
-  area.classList.remove('hidden');
-
-  const subjects = (result.subjects || []).map((subject) => `
-    <tr>
-      <td>${esc(subject.code || '—')}</td>
-      <td>${esc(subject.name || '—')}</td>
-      <td>${esc(subject.grade || '—')}</td>
-      <td>${Number(subject.point || 0).toFixed(2)}</td>
-    </tr>
-  `).join('');
+  const subjects = Array.isArray(result.subjects)
+    ? result.subjects
+    : [];
 
   area.innerHTML = `
-    <div class="demo-banner">
-      ${demo
-        ? 'DEMONSTRATION ONLY · NOT AN OFFICIAL RESULT · নমুনা ফলাফল'
-        : 'UNOFFICIAL PREVIEW · VERIFY WITH NATIONAL UNIVERSITY'}
-    </div>
+    ${isDemo
+      ? `<div class="demo-banner">
+          DEMONSTRATION ONLY · NOT AN OFFICIAL RESULT · নমুনা ফলাফল
+        </div>`
+      : ""}
 
     <article class="transcript" id="transcript">
       <header class="transcript-header">
         <div class="crest">NU</div>
         <p>NATIONAL UNIVERSITY · BANGLADESH</p>
-        <h2>${esc(result.college || 'Affiliated College')}</h2>
+        <h2>${esc(result.college || "Affiliated College")}</h2>
         <p>ACADEMIC RECORDS &amp; EXAMINATIONS</p>
-        <div class="transcript-title">ACADEMIC TRANSCRIPT / MARKSHEET</div>
+        <div class="transcript-title">
+          ACADEMIC TRANSCRIPT / MARKSHEET
+        </div>
       </header>
 
       <section class="student-meta">
-        <div><span>Student Name</span><b>${esc(result.name || '—')}</b></div>
-        <div><span>Programme</span><b>${esc(result.course || '—')}</b></div>
-        <div><span>Examination</span><b>${esc(result.exam || '—')}</b></div>
-        <div><span>Exam Year</span><b>${esc(result.year || '—')}</b></div>
-        <div><span>Roll Number</span><b>${esc(result.roll || '—')}</b></div>
-        <div><span>Registration</span><b>${esc(result.reg || '—')}</b></div>
+        <div><span>Student Name</span><b>${esc(result.name || "—")}</b></div>
+        <div><span>Programme</span><b>${esc(result.course || "—")}</b></div>
+        <div><span>Examination</span><b>${esc(result.exam || "—")}</b></div>
+        <div><span>Exam Year</span><b>${esc(result.year || "—")}</b></div>
+        <div><span>Roll Number</span><b>${esc(result.roll || "—")}</b></div>
+        <div><span>Registration</span><b>${esc(result.reg || "—")}</b></div>
       </section>
 
       <table class="marks-table">
@@ -220,7 +245,16 @@ function renderTranscript(result, demo = true) {
             <th>Grade Point</th>
           </tr>
         </thead>
-        <tbody>${subjects}</tbody>
+        <tbody>
+          ${subjects.map((subject) => `
+            <tr>
+              <td>${esc(subject.code || "—")}</td>
+              <td>${esc(subject.name || "—")}</td>
+              <td>${esc(subject.grade || "—")}</td>
+              <td>${Number(subject.point || 0).toFixed(2)}</td>
+            </tr>
+          `).join("")}
+        </tbody>
       </table>
 
       <div class="result-summary">
@@ -230,14 +264,13 @@ function renderTranscript(result, demo = true) {
         </div>
         <div class="summary-card">
           <small>RESULT STATUS</small>
-          <strong>${esc(result.status || '—')}</strong>
+          <strong>${esc(result.status || "—")}</strong>
         </div>
       </div>
 
       <p class="small-note">
-        ${demo
-          ? 'This sample transcript uses fictional demonstration data. It is not a National University record and must not be used as proof of academic results.'
-          : 'This is an unofficial preview. Verify all information with National University.'}
+        This is fictional demonstration data, not a National University
+        academic record. It must not be used as proof of results.
       </p>
 
       <div class="transcript-footer">
@@ -247,154 +280,205 @@ function renderTranscript(result, demo = true) {
     </article>
 
     <div class="transcript-actions">
-      <button class="primary" id="downloadPdf">Download PDF / Save PDF</button>
-      <button class="outline" id="printResult">Print transcript</button>
-      <button class="quiet" id="newSearch">${messages[lang].close}</button>
+      <button class="primary" id="downloadPdf" type="button">
+        Download PDF / Save PDF
+      </button>
+      <button class="outline" id="printResult" type="button">
+        Print transcript
+      </button>
+      <button class="quiet" id="newSearch" type="button">
+        Close preview
+      </button>
     </div>
   `;
 
-  $('#downloadPdf').onclick = () => window.print();
-  $('#printResult').onclick = () => window.print();
-  $('#newSearch').onclick = () => area.classList.add('hidden');
+  area.classList.remove("hidden");
 
-  area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  $("#downloadPdf").addEventListener("click", () => {
+    printDocument("marksheet");
+  });
+
+  $("#printResult").addEventListener("click", () => {
+    printDocument("marksheet");
+  });
+
+  $("#newSearch").addEventListener("click", () => {
+    area.classList.add("hidden");
+  });
+
+  area.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 }
 
-function esc(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  })[char]);
+/* Dedicated print modes */
+
+function printDocument(mode) {
+  document.body.classList.remove(
+    "print-marksheet",
+    "print-cgpa"
+  );
+
+  document.body.classList.add(
+    mode === "cgpa" ? "print-cgpa" : "print-marksheet"
+  );
+
+  window.print();
 }
 
-function addYear(gpa = '', credits = '') {
+window.addEventListener("afterprint", () => {
+  document.body.classList.remove(
+    "print-marksheet",
+    "print-cgpa"
+  );
+});
+
+/* Credit-weighted CGPA calculator */
+
+const yearRows = $("#yearRows");
+
+function addYear(gpa = "", credits = "") {
+  if (!yearRows) return;
+
   rowCount++;
 
-  const row = document.createElement('tr');
+  const row = document.createElement("tr");
+
   row.innerHTML = `
     <td>Year ${rowCount}</td>
     <td>
-      <input class="gpa" type="number" min="0" max="4" step="0.01"
-        placeholder="e.g. 3.50" aria-label="GPA for year ${rowCount}">
+      <input
+        class="gpa"
+        type="number"
+        min="0"
+        max="4"
+        step="0.01"
+        inputmode="decimal"
+        placeholder="e.g. 3.50"
+        value="${esc(gpa)}"
+        aria-label="Year ${rowCount} GPA"
+      >
     </td>
     <td>
-      <input class="credits" type="number" min="0.01" step="0.01"
-        placeholder="e.g. 30" aria-label="Credits for year ${rowCount}">
+      <input
+        class="credits"
+        type="number"
+        min="0.01"
+        step="0.01"
+        inputmode="decimal"
+        placeholder="e.g. 30"
+        value="${esc(credits)}"
+        aria-label="Year ${rowCount} credits"
+      >
     </td>
   `;
 
-  row.querySelector('.gpa').value = gpa;
-  row.querySelector('.credits').value = credits;
-
-  $('#yearRows')?.appendChild(row);
+  yearRows.appendChild(row);
 }
 
-function setupCalculator() {
-  const yearRows = $('#yearRows');
-  if (!yearRows) return;
+for (let i = 0; i < 4; i++) {
+  addYear();
+}
 
-  for (let i = 0; i < 4; i++) addYear();
+const addYearButton = $("#addYear");
 
-  $('#addYear')?.addEventListener('click', () => addYear());
+if (addYearButton) {
+  addYearButton.addEventListener("click", () => {
+    addYear();
+  });
+}
 
-  $('#calculate')?.addEventListener('click', () => {
-    const rows = [...yearRows.querySelectorAll('tr')];
-    let weightedSum = 0;
+const calculateButton = $("#calculate");
+
+if (calculateButton) {
+  calculateButton.addEventListener("click", () => {
+    const output = $("#calcOutput");
+    const rows = [...yearRows.querySelectorAll("tr")];
+
+    let weightedTotal = 0;
     let totalCredits = 0;
+    let filledRows = 0;
 
     for (const row of rows) {
-      const gpaText = row.querySelector('.gpa').value.trim();
-      const creditText = row.querySelector('.credits').value.trim();
+      const gpaInput = row.querySelector(".gpa");
+      const creditInput = row.querySelector(".credits");
 
-      if (gpaText === '' && creditText === '') continue;
+      const gpaText = gpaInput.value.trim();
+      const creditText = creditInput.value.trim();
+
+      if (gpaText === "" && creditText === "") {
+        continue;
+      }
 
       const gpa = Number(gpaText);
       const credits = Number(creditText);
 
       if (
-        gpaText === '' ||
-        creditText === '' ||
+        gpaText === "" ||
+        creditText === "" ||
         !Number.isFinite(gpa) ||
         !Number.isFinite(credits) ||
         gpa < 0 ||
         gpa > 4 ||
         credits <= 0
       ) {
-        showCalculatorMessage(messages[lang].invalid);
+        output.classList.remove("hidden");
+        output.textContent =
+          "প্রতিটি পূরণ করা বর্ষের জন্য ০–৪.০০ GPA এবং শূন্যের বেশি ক্রেডিট দিন।";
         return;
       }
 
-      weightedSum += gpa * credits;
+      weightedTotal += gpa * credits;
       totalCredits += credits;
+      filledRows++;
     }
 
-    const output = $('#calcOutput');
-    if (!output) return;
+    output.classList.remove("hidden");
 
-    output.classList.remove('hidden');
-
-    if (totalCredits === 0) {
-      output.textContent = messages[lang].empty;
+    if (filledRows === 0 || totalCredits <= 0) {
+      output.textContent =
+        "CGPA হিসাব করতে অন্তত একটি বর্ষের GPA ও ক্রেডিট দিন।";
       return;
     }
 
-    const cgpa = weightedSum / totalCredits;
+    const cgpa = weightedTotal / totalCredits;
 
     output.innerHTML = `
-      <small>${messages[lang].calculated.toUpperCase()}</small>
+      <small>TOTAL CREDIT-WEIGHTED CGPA</small>
       <br>
       <strong>${cgpa.toFixed(2)}</strong>
       <p class="muted">
-        ${messages[lang].credits}: ${totalCredits.toFixed(2)}
-        <br>
-        Formula: Σ(GPA × credits) / Σ credits
+        Total credits: ${totalCredits.toFixed(2)}
+        · Formula: Σ(GPA × credits) / Σ credits
       </p>
-      <button class="outline" id="printCgpa">Print / Save PDF</button>
+      <button class="outline" id="printCgpa" type="button">
+        Print / Save PDF
+      </button>
     `;
 
-    $('#printCgpa').onclick = () => window.print();
+    $("#printCgpa").addEventListener("click", () => {
+      printDocument("cgpa");
+    });
   });
+}
 
-  $('#clearCalc')?.addEventListener('click', () => {
-    yearRows.innerHTML = '';
+const clearButton = $("#clearCalc");
+
+if (clearButton) {
+  clearButton.addEventListener("click", () => {
+    yearRows.innerHTML = "";
     rowCount = 0;
 
-    for (let i = 0; i < 4; i++) addYear();
+    for (let i = 0; i < 4; i++) {
+      addYear();
+    }
 
-    $('#calcOutput')?.classList.add('hidden');
+    $("#calcOutput").classList.add("hidden");
+    $("#calcOutput").textContent = "";
   });
 }
 
-function showCalculatorMessage(message) {
-  const output = $('#calcOutput');
-  if (!output) return;
+/* Initial setup */
 
-  output.classList.remove('hidden');
-  output.textContent = message;
-}
-
-function initialize() {
-  const currentYear = $('#currentYear');
-  if (currentYear) {
-    currentYear.textContent = new Date().getFullYear();
-  }
-
-  $('#langToggle')?.addEventListener('click', switchLanguage);
-
-  setupTabs();
-  setupResultForm();
-  setupPortalControls();
-  setupDemo();
-  setupCalculator();
-
-  setPortal('honours');
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialize);
-} else {
-  initialize();
-}
+setPortal("honours");
