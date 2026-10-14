@@ -1167,3 +1167,99 @@ a:focus-visible {
     text-decoration: none !important;
   }
 }
+
+/* =========================================
+   Dedicated Marksheet / CGPA Print Modes
+========================================= */
+
+@media print {
+  body.print-marksheet * {
+    visibility: hidden !important;
+  }
+
+  body.print-marksheet #resultArea,
+  body.print-marksheet #resultArea * {
+    visibility: visible !important;
+  }
+
+  body.print-marksheet #resultArea {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 auto auto 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  body.print-marksheet #resultArea .transcript-actions,
+  body.print-marksheet #resultArea .demo-banner {
+    display: none !important;
+  }
+
+  body.print-cgpa * {
+    visibility: hidden !important;
+  }
+
+  body.print-cgpa #calculator,
+  body.print-cgpa #calculator * {
+    visibility: visible !important;
+  }
+
+  body.print-cgpa #calculator {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 auto auto 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  body.print-cgpa #calculator button,
+  body.print-cgpa #calculator .calc-actions,
+  body.print-cgpa #calculator .section-head .pill {
+    display: none !important;
+  }
+
+  body.print-cgpa #calculator input,
+  body.print-cgpa #calculator select {
+    border: 0 !important;
+    background: transparent !important;
+    color: #111 !important;
+    box-shadow: none !important;
+    padding: 2px !important;
+    appearance: none !important;
+  }
+
+  body.print-cgpa #calculator .calc-output {
+    display: block !important;
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+
+  body.print-cgpa #calculator .calc-output.hidden {
+    display: block !important;
+  }
+
+  body.print-cgpa #calculator .calc-table-wrap {
+    overflow: visible !important;
+  }
+
+  body.print-cgpa #calculator .calc-table {
+    width: 100% !important;
+  }
+
+  body.print-marksheet .transcript,
+  body.print-cgpa #calculator .calc-output {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
